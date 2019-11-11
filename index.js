@@ -40,13 +40,12 @@ function addNumbers(num1, num2) {
  * }
 */
 function makePersonObject(id, name, email) {
-  function Person() {
-    this.id = id;
-    this.name = name;
-    this.email = email;
+  let person = {
+    id: id,
+    name: name,
+    email: email
   }
-  let myPerson = new Person();
-  return myPerson;
+  return person;
 }
 
 /**
@@ -80,17 +79,16 @@ function getName(person) {
  *         where `{name}` is the name passed into `makeSmartPerson`.
 */
 function makeSmartPerson(name) {
-  function smartPerson() {
-    this.name = name;
-    this.sum = function(num1, num2) {
+  let smartPerson = {
+    name: name,
+    sum: function(num1, num2) {
       return num1 + num2;
-    };
-    this.speak = function() {
+    },
+    speak: function() {
       return "Hello, my name is " + name;
-    };
+    }
   }
-  let mySmartPerson = new smartPerson();
-  return mySmartPerson;
+  return smartPerson;
 }
 
 
@@ -183,13 +181,7 @@ function getLastCarInfo(inventory) {
  * it will return `This is a Lincoln Navigator`.
 */
 function getCarInfoById(inventory, id) {
-  let index;
-  for (let i = 0; i < inventory.length; i++) {
-    if (inventory[i].id === id) {
-      index = i;
-    }
-  }
-  return "This is a " + inventory[index].car_make + " " + inventory[index].car_model;
+  return "This is a " + inventory[id - 1].car_make + " " + inventory[id - 1].car_model;
 }
 
 /**
@@ -200,22 +192,35 @@ function getCarInfoById(inventory, id) {
  *     (1) an array which is an inventory of cars like the one inside /data/inventory.js.
  * sortCarInventory returns an inventory that is sorted by car_model, ascending [A-Z].
 */
+// function sortCarInventory(inventory) {
+//   let arrayOfCarModels = [];
+//   let sortedArrayOfCarModels = [];
+//   let sortedArray = [];
+//   for (let i = 0; i < inventory.length; i++) {
+//     arrayOfCarModels[i] = inventory[i].car_model;
+//   }
+//   sortedArrayOfCarModels = arrayOfCarModels.sort();
+//   for (let i = 0; i < inventory.length; i++) {
+//     for (let j = 0; j < inventory.length; j++) {
+//       if (sortedArrayOfCarModels[i] === inventory[j].car_model) {
+//         sortedArray[i] = inventory[j];
+//       }
+//     }
+//   }
+//   return sortedArray;
+// }
+
 function sortCarInventory(inventory) {
-  let arrayOfCarModels = [];
-  let sortedArrayOfCarModels = [];
-  let sortedArray = [];
-  for (let i = 0; i < inventory.length; i++) {
-    arrayOfCarModels[i] = inventory[i].car_model;
-  }
-  sortedArrayOfCarModels = arrayOfCarModels.sort();
-  for (let i = 0; i < inventory.length; i++) {
-    for (let j = 0; j < inventory.length; j++) {
-      if (sortedArrayOfCarModels[i] === inventory[j].car_model) {
-        sortedArray[i] = inventory[j];
-      }
+  return inventory.sort(function(a, b) {
+    let car1 = a.car_model;
+    let car2 = b.car_model;
+    if (car1 > car2) {
+      return 1;
+    } else if (car1 < car2) {
+      return -1;
     }
-  }
-  return sortedArray;
+    return 0; 
+  });
 }
 
 /**
@@ -230,7 +235,7 @@ function sortCarInventory(inventory) {
 function getModelYears(inventory) {
   let arrayOfModelYears = [];
   for (let i = 0; i < inventory.length; i++) {
-    arrayOfModelYears[i] = inventory[i].car_year;
+    arrayOfModelYears.push(inventory[i].car_year);
   }
   return arrayOfModelYears;
 }
@@ -314,15 +319,14 @@ const argTimesTwo = (num) => num * 2; // code here!
  *         (2) returns the updated value of the `odometer`.
 */
 function carMaker(num) {
-  function car(num) {
-    this.odometer = num;
-    this.drive = function(distance) {
+  let car = {
+    odometer: num,
+    drive: function(distance) {
       this.odometer += distance;
       return this.odometer;
-    };
+    }
   }
-  let myCar = new car(num);
-  return myCar;
+  return car;
 }
 
 /// ////// END OF CHALLENGE /////////
